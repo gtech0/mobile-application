@@ -107,28 +107,68 @@ fun calc (str: String): Int {
 //ПАРСЕР КОНЕЦ
 
 //КЛАССЫ
+
+//абстрактный класс переменная
 abstract class Variable(vName: String) {
-val varName = vName;
-var defined = false;
-abstract var Type: String;
-    init {
-       map.put(vName, this)
-    }
+	val varName = vName;
+	var defined = false;
+	abstract var value: String;
+	abstract var Type: String;
+	
+	init {
+		map.put(vName, this)
+	}
 }
 
+//хранилище переменных
 var map = mutableMapOf<String, Variable>()
 
-
-class IntClass(varName: String) : Variable(varName) {
-override var Type = "Int";
+//существует ли переменная?
+fun isExist(name: String): Boolean {
+    return map.containsKey(name);
 }
 
+//определена ли переменная?
+fun isDefined(name: String): Boolean {
+    if (!isExist(name)) return false;
+    val a = map.get(name);
+    val b = a!!.defined;
+    return b;
+}
+
+//класс целое
+class IntClass(varName: String) : Variable(varName) {
+	override var Type = "Int";
+	override var value = "0";
+}
+
+//создать переменную, в случае успеха true, иначе false
 fun createVar(name: String, type: String): Boolean {
-    if (map.containsKey(name) || !isCorrect(name)) return false;
+    if (isExist(name) || !isCorrect(name)) return false;
     if (type=="Int") {
         var a = IntClass(name);
         return true;
     }
     return false;
+}
+
+//получить значение переменной (для целых)
+fun getIntValue(name: String): String {
+    if (isExist(name)) {
+        var a = map.get(name);
+        if (!isDefined(name)) return "undefined";
+        else return a!!.value;
+    }
+    else return "NaN";
+}
+
+//присвоить значение переменной (для целых)
+fun setIntValue(name: String, Val: Int): Boolean {
+    if (isExist(name)) {
+        map.get(name)!!.value = Val.toString();
+        map.get(name)!!.defined = true;
+        return true;
+    }
+    else return false;
 }
 
