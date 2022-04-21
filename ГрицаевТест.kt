@@ -124,7 +124,7 @@ override var Type = "Int";
 }
 
 fun createVar(name: String, type: String): Boolean {
-    if (map.containsKey(name)) return false;
+    if (map.containsKey(name) || !isCorrect(name)) return false;
     if (type=="Int") {
         var a = IntClass(name);
         return true;
