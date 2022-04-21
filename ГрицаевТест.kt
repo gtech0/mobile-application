@@ -7,6 +7,8 @@ fun isCorrect(NAME: String): Boolean
     return NAME.matches(Regex("[a-zA-Z0-9_$]+"));
 }
 
+
+//ПАРСЕР НАЧАЛО
 fun is_op (c: Char): Boolean {
 	return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%');
 }
@@ -100,5 +102,33 @@ fun calc (str: String): Int {
     }
     
 	return st.last();
+}
+
+//ПАРСЕР КОНЕЦ
+
+//КЛАССЫ
+abstract class Variable(vName: String) {
+val varName = vName;
+var defined = false;
+abstract var Type: String;
+    init {
+       map.put(vName, this)
+    }
+}
+
+var map = mutableMapOf<String, Variable>()
+
+
+class IntClass(varName: String) : Variable(varName) {
+override var Type = "Int";
+}
+
+fun createVar(name: String, type: String): Boolean {
+    if (map.containsKey(name)) return false;
+    if (type=="Int") {
+        var a = IntClass(name);
+        return true;
+    }
+    return false;
 }
 
