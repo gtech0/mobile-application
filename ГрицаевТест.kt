@@ -7,7 +7,6 @@ fun isCorrect(NAME: String): Boolean
     return NAME.matches(Regex("[a-zA-Z0-9_$]+"));
 }
 
-
 fun is_op (c: Char): Boolean {
 	return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%');
 }
@@ -68,12 +67,12 @@ fun calc (str: String): Int {
 					st = process_op(st, op.last());
                 	op.removeLast();
                 }
-				op.last();
+				op.removeLast();
 				may_unary = false;
 			}
 			else if (is_op (s[i])) {
 				var curop = s[i].toInt();
-				if (may_unary && curop<0)  curop = -curop;
+				if (may_unary)  curop = -curop;
 				while (!op.isEmpty() && (
 					curop >= 0 && priority(op.last()) >= priority(curop)
 					|| curop < 0 && priority(op.last()) > priority(curop))) {
@@ -102,3 +101,4 @@ fun calc (str: String): Int {
     
 	return st.last();
 }
+
