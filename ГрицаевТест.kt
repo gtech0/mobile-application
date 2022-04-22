@@ -1,5 +1,7 @@
 import java.util.ArrayDeque
 //переменные не могут быть пустой строкой, начинаться с цифры и должны содержать символы лат. алфавита, цифры, символы "$", "_"
+fun Boolean.toInt() = if (this) 1 else 0;
+fun Int.toBool() = if (this==0) false else true;
 fun isCorrect(NAME: String): Boolean
 {
     if (NAME.length==0) return false;
@@ -10,16 +12,22 @@ fun isCorrect(NAME: String): Boolean
 
 //ПАРСЕР НАЧАЛО
 fun is_op (c: Char): Boolean {
-	return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%');
+	return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%' || c=='|' || c=='&');
+}
+
+fun is_math (c: Char): Boolean {
+    return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%');
 }
 
 
 fun priority (ID: Int): Int {
 	if (ID < 0)
-		return 4; // op == -'+' || op == -'-'
+		return 100; // op == -'+' || op == -'-'
     var op = ID.toChar()
-	if (op == '+' || op == '-') return 1;
-    if (op == '*' || op == '/' || op == '%') return 2;
+    if (op == '|') return 1;
+    if (op == '&') return 2;
+	if (op == '+' || op == '-') return 10;
+    if (op == '*' || op == '/' || op == '%') return 20;
 	return -1;
 }
 
@@ -44,6 +52,8 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
 			'*' ->  st.addLast(l * r);
 			'/' ->  st.addLast(l / r);
 			'%' ->  st.addLast(l % r);
+			'|' ->  st.addLast((l.toBool() || r.toBool()).toInt());
+            '&' ->  st.addLast((l.toBool() && r.toBool()).toInt());
 		}
 	}
     return st;
@@ -54,7 +64,9 @@ fun calc (str: String): String {
     var EXPR = str;
     
     var may_unary = true;
-    var s = EXPR.replace("\\s".toRegex(), "")
+    var s = EXPR.replace("\\s".toRegex(), "");
+    s = s.replace("\\&\\&".toRegex(), "&");
+    s = s.replace("\\|\\|".toRegex(), "|");
     //val regex = Regex("([a-zA-Z0-9$\\_]+)(?<=[a-zA-Z$\\_])")
 	//val matches = regex.findAll(s)
    // matches.forEach {
@@ -65,6 +77,7 @@ fun calc (str: String): String {
     var st = ArrayDeque<Int>()
     var op = ArrayDeque<Int>()
     
+    var intFlag = false;
     var i = 0;
 	while (i <s.length) {
 			if (s[i] == '(') {
@@ -80,6 +93,7 @@ fun calc (str: String): String {
 				may_unary = false;
 			}
 			else if (is_op (s[i])) {
+                if (is_math(s[i])) intFlag = true;
 				var curop = s[i].toInt();
 				if (may_unary)  curop = -curop;
 				while (!op.isEmpty() && (
@@ -100,7 +114,7 @@ fun calc (str: String): String {
 				--i;
                 if (OPER[0].isDigit()) st.addLast(OPER.toInt())
                 else { 
-                    if (isDefined(OPER) && getType(OPER)=="Int") {
+                    if (isDefined(OPER) && (getType(OPER)=="Int" || getType(OPER)=="Bool")) {
                         st.addLast(getValue(OPER).toInt())
                     }
                     else return "error";
@@ -114,7 +128,12 @@ fun calc (str: String): String {
         op.removeLast();
     }
     
-	return st.last().toString();
+	if (intFlag) return st.last().toString();
+    else {
+        val result = st.last().toString();
+        if (result=="0") return "false";
+        else return "true";
+    }
 }
 
 //ПАРСЕР КОНЕЦ
@@ -189,7 +208,9 @@ fun setValue(name: String, Val: String): Boolean {
     if (TYPE=="Int") {
         val res = calc(Val);
         if (res=="error") return false;
-        map.get(name)!!.value = res;
+        if (res=="true") map.get(name)!!.value = "1";
+        else if (res=="false") map.get(name)!!.value = "0";
+        else map.get(name)!!.value = res;
         map.get(name)!!.defined = true;
         return true;
     }
