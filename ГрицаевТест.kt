@@ -34,6 +34,7 @@ fun priority (ID: Int): Int {
 fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
     var op: Char;
 	if (ID < 0) {
+        if (st.count() == 0) return st;
 		var l = st.last();
         st.removeLast();
         op = (-ID).toChar()
@@ -41,6 +42,10 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
 		if (op=='-')  st.addLast(-l);
 	}
 	else {
+        if (st.count() < 2) {
+            st.clear();
+            return st;
+        }
 		var r = st.last();
         st.removeLast();
 		var l = st.last();
@@ -95,7 +100,11 @@ fun calc (str: String): String {
 			else if (is_op (s[i])) {
                 if (is_math(s[i])) intFlag = true;
 				var curop = s[i].toInt();
-				if (may_unary)  curop = -curop;
+				if (may_unary) {
+                    if (s[i]!='-' && s[i]!='+' && s[i] != '!') return "error";
+                    curop = -curop;
+                    
+                } 
 				while (!op.isEmpty() && (
 					curop >= 0 && priority(op.last()) >= priority(curop)
 					|| curop < 0 && priority(op.last()) > priority(curop))) {
@@ -128,12 +137,8 @@ fun calc (str: String): String {
         op.removeLast();
     }
     
-	if (intFlag) return st.last().toString();
-    else {
-        val result = st.last().toString();
-        if (result=="0") return "false";
-        else return "true";
-    }
+    if (st.isEmpty()) return "error";
+	return st.last().toString();
 }
 
 //ПАРСЕР КОНЕЦ
@@ -208,16 +213,15 @@ fun setValue(name: String, Val: String): Boolean {
     if (TYPE=="Int") {
         val res = calc(Val);
         if (res=="error") return false;
-        if (res=="true") map.get(name)!!.value = "1";
-        else if (res=="false") map.get(name)!!.value = "0";
-        else map.get(name)!!.value = res;
+        map.get(name)!!.value = res;
         map.get(name)!!.defined = true;
         return true;
     }
     if (TYPE=="Bool") {
         //доделать
-        if (Val!="true" && Val!="false") return false;
-        map.get(name)!!.value = Val;
+        if (Val!="0" && Val!="1") return false;
+        if (Val=="0") map.get(name)!!.value = "false";
+        else map.get(name)!!.value = "true";
         map.get(name)!!.defined = true;
         return true;
     }
