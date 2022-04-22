@@ -49,12 +49,19 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
     return st;
 }
 
-fun calc (str: String): Int {
+fun calc (str: String): String {
 	
     var EXPR = str;
     
     var may_unary = true;
     var s = EXPR.replace("\\s".toRegex(), "")
+    //val regex = Regex("([a-zA-Z0-9$\\_]+)(?<=[a-zA-Z$\\_])")
+	//val matches = regex.findAll(s)
+   // matches.forEach {
+   //     if (!isDefined(it.groupValues[1])) println("ошибка")
+   // }
+    
+    
     var st = ArrayDeque<Int>()
     var op = ArrayDeque<Int>()
     
@@ -86,12 +93,18 @@ fun calc (str: String): Int {
 			}
 			else {
 				var OPER = "";
-				while (i < s.length && s[i].isDigit()) {
+				while (i < s.length && !is_op(s[i]) && s[i] != '(' && s[i] != ')') {
                     val ch = s[i++]
 					OPER+=ch;
                 }
 				--i;
-                st.addLast(OPER.toInt())
+                if (OPER[0].isDigit()) st.addLast(OPER.toInt())
+                else { 
+                    if (isDefined(OPER)) {
+                        st.addLast(getIntValue(OPER).toInt())
+                    }
+                    else return "error";
+                }
 				may_unary = false;
 			}
             i++
@@ -101,34 +114,34 @@ fun calc (str: String): Int {
         op.removeLast();
     }
     
-	return st.last();
+	return st.last().toString();
 }
 
 //ПАРСЕР КОНЕЦ
 
 //КЛАССЫ
-
-//абстрактный класс переменная
 abstract class Variable(vName: String) {
-	val varName = vName;
-	var defined = false;
-	abstract var value: String;
-	abstract var Type: String;
-	
-	init {
-		map.put(vName, this)
-	}
+val varName = vName;
+var defined = false;
+abstract var value: String;
+abstract var Type: String;
+    init {
+       map.put(vName, this)
+    }
 }
 
-//хранилище переменных
 var map = mutableMapOf<String, Variable>()
 
-//существует ли переменная?
+
+class IntClass(varName: String) : Variable(varName) {
+override var Type = "Int";
+ override var value = "0";
+}
+
 fun isExist(name: String): Boolean {
     return map.containsKey(name);
 }
 
-//определена ли переменная?
 fun isDefined(name: String): Boolean {
     if (!isExist(name)) return false;
     val a = map.get(name);
@@ -136,13 +149,6 @@ fun isDefined(name: String): Boolean {
     return b;
 }
 
-//класс целое
-class IntClass(varName: String) : Variable(varName) {
-	override var Type = "Int";
-	override var value = "0";
-}
-
-//создать переменную, в случае успеха true, иначе false
 fun createVar(name: String, type: String): Boolean {
     if (isExist(name) || !isCorrect(name)) return false;
     if (type=="Int") {
@@ -152,7 +158,8 @@ fun createVar(name: String, type: String): Boolean {
     return false;
 }
 
-//получить значение переменной (для целых)
+
+
 fun getIntValue(name: String): String {
     if (isExist(name)) {
         var a = map.get(name);
@@ -162,7 +169,6 @@ fun getIntValue(name: String): String {
     else return "NaN";
 }
 
-//присвоить значение переменной (для целых)
 fun setIntValue(name: String, Val: Int): Boolean {
     if (isExist(name)) {
         map.get(name)!!.value = Val.toString();
@@ -171,4 +177,3 @@ fun setIntValue(name: String, Val: Int): Boolean {
     }
     else return false;
 }
-
