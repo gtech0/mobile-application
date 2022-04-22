@@ -100,8 +100,8 @@ fun calc (str: String): String {
 				--i;
                 if (OPER[0].isDigit()) st.addLast(OPER.toInt())
                 else { 
-                    if (isDefined(OPER)) {
-                        st.addLast(getIntValue(OPER).toInt())
+                    if (isDefined(OPER) && getType(OPER)=="Int") {
+                        st.addLast(getValue(OPER).toInt())
                     }
                     else return "error";
                 }
@@ -138,6 +138,11 @@ override var Type = "Int";
  override var value = "0";
 }
 
+class BoolClass(varName: String) : Variable(varName) {
+override var Type = "Bool";
+ override var value = "false";
+}
+
 fun isExist(name: String): Boolean {
     return map.containsKey(name);
 }
@@ -149,31 +154,51 @@ fun isDefined(name: String): Boolean {
     return b;
 }
 
+fun getType(name: String): String {
+    if (!isExist(name)) return "NaN";
+    return map.get(name)!!.Type;
+}
+
 fun createVar(name: String, type: String): Boolean {
     if (isExist(name) || !isCorrect(name)) return false;
     if (type=="Int") {
         var a = IntClass(name);
         return true;
     }
+    if (type=="Bool") {
+        var a = BoolClass(name);
+        return true;
+    }
     return false;
 }
 
-
-
-fun getIntValue(name: String): String {
-    if (isExist(name)) {
+fun getValue(name: String): String {
+    val TYPE = getType(name);
+    if (!isExist(name) || TYPE == "NaN") return "NaN";
+    if (!isDefined(name)) return "undefined";
+    if (TYPE == "Int" || TYPE == "Bool") {
         var a = map.get(name);
-        if (!isDefined(name)) return "undefined";
-        else return a!!.value;
+        return a!!.value;
     }
-    else return "NaN";
+    return "NaN";
 }
 
-fun setIntValue(name: String, Val: Int): Boolean {
-    if (isExist(name)) {
-        map.get(name)!!.value = Val.toString();
+fun setValue(name: String, Val: String): Boolean {
+    if (!isExist(name)) return false;
+    val TYPE = getType(name);
+    if (TYPE=="Int") {
+        val res = calc(Val);
+        if (res=="error") return false;
+        map.get(name)!!.value = res;
         map.get(name)!!.defined = true;
         return true;
     }
-    else return false;
+    if (TYPE=="Bool") {
+        //доделать
+        if (Val!="true" && Val!="false") return false;
+        map.get(name)!!.value = Val;
+        map.get(name)!!.defined = true;
+        return true;
+    }
+    return false;
 }
