@@ -12,18 +12,20 @@ fun isCorrect(NAME: String): Boolean
 
 //ПАРСЕР НАЧАЛО
 fun is_op (c: Char): Boolean {
-    val s = arrayOf('+', '-', '*', '/', '%', '|', '&', '<', '>', '⩽', '⩾', '=')
+    val s = arrayOf('+', '-', '*', '/', '%', '|', '&', '!', '<', '>', '⩽', '⩾', '=', '≠')
 	return (c in s);
 }
 
 
 fun priority (ID: Int): Int {
-	if (ID < 0)
+	if (ID < 0) {
+    	if (ID.toChar() == '!') return 3;
 		return 100; // op == -'+' || op == -'-'
+    }
     var op = ID.toChar()
     if (op == '|') return 1;
     if (op == '&') return 2;
-    if (op=='>' || op=='<' || op=='⩽' || op=='⩾' || op=='=') return 3;
+    if (op=='>' || op=='<' || op=='⩽' || op=='⩾' || op=='=' || op=='≠') return 4;
 	if (op == '+' || op == '-') return 10;
     if (op == '*' || op == '/' || op == '%') return 20;
 	return -1;
@@ -38,6 +40,7 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
         op = (-ID).toChar()
 		if (op=='+')  st.addLast(l);
 		if (op=='-')  st.addLast(-l);
+        if (op=='!')  st.addLast((!(l.toBool())).toInt());
 	}
 	else {
         if (st.count() < 2) {
@@ -62,6 +65,7 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
             '=' ->  st.addLast((l == r).toInt());
             '⩽' ->  st.addLast((l <= r).toInt());
             '⩾' ->  st.addLast((l >= r).toInt());
+            '≠' -> st.addLast((l != r).toInt());
 		}
 	}
     return st;
@@ -78,7 +82,7 @@ fun calc (str: String): String {
     s = s.replace("<=".toRegex(), "⩽");
     s = s.replace(">=".toRegex(), "⩾");
     s = s.replace("==".toRegex(), "=");
-    
+    s = s.replace("!=".toRegex(), "≠");
     var st = ArrayDeque<Int>()
     var op = ArrayDeque<Int>()
     
@@ -101,7 +105,7 @@ fun calc (str: String): String {
 				var curop = s[i].toInt();
 				if (may_unary) {
                     if (s[i]!='-' && s[i]!='+' && s[i] != '!') return "error";
-                    curop = -curop;
+             		curop = -curop;
                     
                 } 
 				while (!op.isEmpty() && (
