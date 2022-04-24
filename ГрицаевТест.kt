@@ -12,11 +12,8 @@ fun isCorrect(NAME: String): Boolean
 
 //ПАРСЕР НАЧАЛО
 fun is_op (c: Char): Boolean {
-	return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%' || c=='|' || c=='&');
-}
-
-fun is_math (c: Char): Boolean {
-    return (c=='+' || c=='-' || c=='*' || c=='/' || c=='%');
+    val s = arrayOf('+', '-', '*', '/', '%', '|', '&', '<', '>', '⩽', '⩾', '=')
+	return (c in s);
 }
 
 
@@ -26,6 +23,7 @@ fun priority (ID: Int): Int {
     var op = ID.toChar()
     if (op == '|') return 1;
     if (op == '&') return 2;
+    if (op=='>' || op=='<' || op=='⩽' || op=='⩾' || op=='=') return 3;
 	if (op == '+' || op == '-') return 10;
     if (op == '*' || op == '/' || op == '%') return 20;
 	return -1;
@@ -59,6 +57,11 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
 			'%' ->  st.addLast(l % r);
 			'|' ->  st.addLast((l.toBool() || r.toBool()).toInt());
             '&' ->  st.addLast((l.toBool() && r.toBool()).toInt());
+            '<' ->  st.addLast((l < r).toInt());
+            '>' ->  st.addLast((l > r).toInt());
+            '=' ->  st.addLast((l == r).toInt());
+            '⩽' ->  st.addLast((l <= r).toInt());
+            '⩾' ->  st.addLast((l >= r).toInt());
 		}
 	}
     return st;
@@ -72,17 +75,13 @@ fun calc (str: String): String {
     var s = EXPR.replace("\\s".toRegex(), "");
     s = s.replace("\\&\\&".toRegex(), "&");
     s = s.replace("\\|\\|".toRegex(), "|");
-    //val regex = Regex("([a-zA-Z0-9$\\_]+)(?<=[a-zA-Z$\\_])")
-	//val matches = regex.findAll(s)
-   // matches.forEach {
-   //     if (!isDefined(it.groupValues[1])) println("ошибка")
-   // }
-    
+    s = s.replace("<=".toRegex(), "⩽");
+    s = s.replace(">=".toRegex(), "⩾");
+    s = s.replace("==".toRegex(), "=");
     
     var st = ArrayDeque<Int>()
     var op = ArrayDeque<Int>()
     
-    var intFlag = false;
     var i = 0;
 	while (i <s.length) {
 			if (s[i] == '(') {
@@ -98,7 +97,7 @@ fun calc (str: String): String {
 				may_unary = false;
 			}
 			else if (is_op (s[i])) {
-                if (is_math(s[i])) intFlag = true;
+                
 				var curop = s[i].toInt();
 				if (may_unary) {
                     if (s[i]!='-' && s[i]!='+' && s[i] != '!') return "error";
@@ -227,3 +226,4 @@ fun setValue(name: String, Val: String): Boolean {
     }
     return false;
 }
+
