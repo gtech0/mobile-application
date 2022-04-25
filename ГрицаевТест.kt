@@ -40,7 +40,7 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
         op = (-ID).toChar()
 		if (op=='+')  st.addLast(l);
 		if (op=='-')  st.addLast(-l);
-        	if (op=='!')  st.addLast((!(l.toBool())).toInt());
+        if (op=='!')  st.addLast((!(l.toBool())).toInt());
 	}
 	else {
         if (st.count() < 2) {
@@ -146,6 +146,12 @@ fun calc (str: String): String {
 	return st.last().toString();
 }
 
+fun isTrue(x: String): Boolean {
+    var r = calc(x);
+    if (r == "0" || r == "error") return false;
+    return true;
+}
+
 //ПАРСЕР КОНЕЦ
 
 //КЛАССЫ
@@ -201,7 +207,9 @@ fun createVar(name: String, type: String): Boolean {
     return false;
 }
 
-fun createVar(name: String): Boolean {
+
+
+fun deleteVar(name: String): Boolean {
     if (!isExist(name)) return false;
     else map.remove(name);
     return true;
@@ -253,20 +261,24 @@ abstract class CodeBlock() {
 }
 
 
-
+var LAST_VARS: MutableList<String> = mutableListOf();
 class createBlock(x: Array<String>) : CodeBlock() {
  	override var Type = "Create";
  	var instructions = x;
  	override fun execute(): Boolean {
+        LAST_VARS = mutableListOf();
         for (i in 0 until instructions.size step 3) {
             if (instructions[i+2]=="") {
                 if (!createVar(instructions[i], instructions[i+1])) return false;
+                LAST_VARS.add(instructions[i]);
             }
             else {
                 if (!createVar(instructions[i], instructions[i+1])) return false;
+                LAST_VARS.add(instructions[i]);
                 if (!setValue(instructions[i], instructions[i+2])) return false;
             }
         }
+        println(LAST_VARS.size)
     	return true;
  	}
 }
@@ -291,13 +303,69 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
         if (calc(condition)!="0") {
             for(i in IF)	{
         		if (!i.execute()) return false;
-    		}
+            }
         }
         else {
             for(i in THEN)	{
         		if (!i.execute()) return false;
     		}
         }
+        for (i in LAST_VARS) {
+            deleteVar(i);
+        }
     	return true;
+ 	}
+}
+
+class forBlock(before: Array<CodeBlock>, expr: String, after: Array<CodeBlock>, body: Array<CodeBlock>) : CodeBlock() {
+ 	override var Type = "For";
+ 	var condition = expr;
+ 	var start = before;
+ 	var end = after;
+    var cycleBody = body;
+    override fun execute(): Boolean {
+        var DELETE: MutableList<String> = mutableListOf();
+        for(i in start){
+        	if (!i.execute()) {
+                for (i in LAST_VARS) {
+            		deleteVar(i);
+        		}
+                return false;
+            }
+    	}
+        DELETE = LAST_VARS;
+        var flag1 = false; var flag2 = false;
+    	while (isTrue(condition)) {
+            if (calc(condition)=="error") return false;
+            for(i in cycleBody)	{
+        		if (!i.execute()) {
+                	for (i in LAST_VARS) {
+            			deleteVar(i);
+        			}
+                	return false;
+            	}
+                if (!flag1) {
+                    DELETE.plus(LAST_VARS);
+                    flag1 = true;
+                }
+            }
+
+            for(i in end){
+        		if (!i.execute()) {
+                	for (i in LAST_VARS) {
+            			deleteVar(i);
+        			}
+                	return false;
+            	}
+                if (!flag2) {
+                    DELETE.plus(LAST_VARS);
+                    flag2 = true;
+                }
+    		}
+        }
+        for (i in DELETE) {
+            deleteVar(i);
+        }
+        return true;
  	}
 }
