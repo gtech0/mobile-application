@@ -19,7 +19,7 @@ fun is_op (c: Char): Boolean {
 
 fun priority (ID: Int): Int {
 	if (ID < 0) {
-    	if (ID.toChar() == '!') return 3;
+    	if ((-ID).toChar() == '!') return 3;
 		return 100; // op == -'+' || op == -'-'
     }
     var op = ID.toChar()
@@ -40,7 +40,7 @@ fun process_op (st: ArrayDeque<Int>, ID: Int): ArrayDeque<Int> {
         op = (-ID).toChar()
 		if (op=='+')  st.addLast(l);
 		if (op=='-')  st.addLast(-l);
-        if (op=='!')  st.addLast((!(l.toBool())).toInt());
+        	if (op=='!')  st.addLast((!(l.toBool())).toInt());
 	}
 	else {
         if (st.count() < 2) {
@@ -201,6 +201,12 @@ fun createVar(name: String, type: String): Boolean {
     return false;
 }
 
+fun createVar(name: String): Boolean {
+    if (!isExist(name)) return false;
+    else map.remove(name);
+    return true;
+}
+
 fun getValue(name: String): String {
     val TYPE = getType(name);
     if (!isExist(name) || TYPE == "NaN") return "NaN";
@@ -282,7 +288,7 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
  	var IF = ifInstr;
  	var THEN = thenInstr;
     override fun execute(): Boolean {
-  
+        println(calc(condition))
         if (calc(condition)!="0") {
             for(i in IF)	{
         		if (!i.execute()) return false;
@@ -296,5 +302,3 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
     	return true;
  	}
 }
-
-
