@@ -282,6 +282,7 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
  	var IF = ifInstr;
  	var THEN = thenInstr;
     override fun execute(): Boolean {
+  
         if (calc(condition)!="0") {
             for(i in IF)	{
         		if (!i.execute()) return false;
@@ -295,4 +296,5 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
     	return true;
  	}
 }
+
 
