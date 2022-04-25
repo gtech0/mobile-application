@@ -258,7 +258,7 @@ fun setValue(name: String, Val: String): Boolean {
 abstract class CodeBlock() {
 	abstract var Type: String;
 	abstract fun execute(): Boolean;
-    abstract fun getVars(): MutableList<String>;
+    abstract fun getVars(): MutableSet<String>;
 }
 
 
@@ -277,8 +277,8 @@ class createBlock(x: Array<String>) : CodeBlock() {
         }
     	return true;
  	}
-    override fun getVars(): MutableList<String> {
-        var res = mutableListOf<String>();
+    override fun getVars(): MutableSet<String> {
+        var res = mutableSetOf<String>();
         for (i in 0 until instructions.size step 3) {
             res.add(instructions[i]);
         }
@@ -295,8 +295,8 @@ class setBlock(x: Array<String>) : CodeBlock() {
         }
     	return true;
  	}
-    override fun getVars(): MutableList<String> {
-        var res = mutableListOf<String>();
+    override fun getVars(): MutableSet<String> {
+        var res = mutableSetOf<String>();
         for (i in 0 until instructions.size step 2) {
             res.add(instructions[i]);
         }
@@ -310,7 +310,7 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
  	var IF = ifInstr;
  	var THEN = thenInstr;
     override fun execute(): Boolean {
-        var DEL: MutableList<String> = mutableListOf<String>();
+        var DEL: MutableSet<String> = mutableSetOf<String>();
         if (calc(condition)!="0") {
             for(i in IF)	{
         		if (!i.execute()) return false;
@@ -330,9 +330,9 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
         }
     	return true;
  	}
-    override fun getVars(): MutableList<String> {
+    override fun getVars(): MutableSet<String> {
         //доделать (зачем...)
-        var res = mutableListOf<String>();
+        var res = mutableSetOf<String>();
         return res;
     }
 }
@@ -344,16 +344,14 @@ class forBlock(before: Array<CodeBlock>, expr: String, after: Array<CodeBlock>, 
  	var end = after;
     var cycleBody = body;
     override fun execute(): Boolean {
-        var DELETE: MutableList<String> = mutableListOf();
+        var DEL: MutableSet<String> = mutableSetOf();
         for(i in start){
         	if (!i.execute()) {
-               
                 return false;
             }
+            if (i.Type=="Create") DEL.addAll(i.getVars())
     	}
-        for((key, value) in map){
-    	println("$key : " + value.defined + ", " + value.value)
-		}
+       
     	while (isTrue(condition)) {
             if (calc(condition)=="error") return false;
             for(i in cycleBody)	{
@@ -361,26 +359,25 @@ class forBlock(before: Array<CodeBlock>, expr: String, after: Array<CodeBlock>, 
            
                 	return false;
             	}
-               
+                if (i.Type=="Create") DEL.addAll(i.getVars())
             }
 
             for(i in end){
         		if (!i.execute()) {
-                
                 	return false;
             	}
-               
+                if (i.Type=="Create") DEL.addAll(i.getVars())
     		}
         }
-        for (i in DELETE) {
-            println(DELETE.size)
+        for (i in DEL) {
+            println(DEL.size)
             deleteVar(i);
         }
         return true;
  	}
-    override fun getVars(): MutableList<String> {
+    override fun getVars(): MutableSet<String> {
         //доделать (зачем...)
-        var res = mutableListOf<String>();
+        var res = mutableSetOf<String>();
         return res;
     }
 }
