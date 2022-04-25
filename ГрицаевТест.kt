@@ -258,29 +258,32 @@ fun setValue(name: String, Val: String): Boolean {
 abstract class CodeBlock() {
 	abstract var Type: String;
 	abstract fun execute(): Boolean;
+    abstract fun getVars(): MutableList<String>;
 }
 
 
-var LAST_VARS: MutableList<String> = mutableListOf();
 class createBlock(x: Array<String>) : CodeBlock() {
  	override var Type = "Create";
  	var instructions = x;
  	override fun execute(): Boolean {
-        LAST_VARS = mutableListOf();
         for (i in 0 until instructions.size step 3) {
             if (instructions[i+2]=="") {
                 if (!createVar(instructions[i], instructions[i+1])) return false;
-                LAST_VARS.add(instructions[i]);
             }
             else {
                 if (!createVar(instructions[i], instructions[i+1])) return false;
-                LAST_VARS.add(instructions[i]);
                 if (!setValue(instructions[i], instructions[i+2])) return false;
             }
         }
-        println(LAST_VARS.size)
     	return true;
  	}
+    override fun getVars(): MutableList<String> {
+        var res = mutableListOf<String>();
+        for (i in 0 until instructions.size step 3) {
+            res.add(instructions[i]);
+        }
+        return res;
+    }
 }
 
 class setBlock(x: Array<String>) : CodeBlock() {
@@ -292,6 +295,13 @@ class setBlock(x: Array<String>) : CodeBlock() {
         }
     	return true;
  	}
+    override fun getVars(): MutableList<String> {
+        var res = mutableListOf<String>();
+        for (i in 0 until instructions.size step 2) {
+            res.add(instructions[i]);
+        }
+        return res;
+    }
 }
 
 class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBlock>) : CodeBlock() {
@@ -300,21 +310,31 @@ class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBloc
  	var IF = ifInstr;
  	var THEN = thenInstr;
     override fun execute(): Boolean {
+        var DEL: MutableList<String> = mutableListOf<String>();
         if (calc(condition)!="0") {
             for(i in IF)	{
         		if (!i.execute()) return false;
+                if (i.Type=="Create") {DEL.addAll(i.getVars())}
             }
         }
         else {
             for(i in THEN)	{
         		if (!i.execute()) return false;
+                if (i.Type=="Create") {DEL.addAll(i.getVars())}
     		}
         }
-        for (i in LAST_VARS) {
-            deleteVar(i);
+        println(DEL.size)
+        for (j in DEL) {
+            
+            deleteVar(j)
         }
     	return true;
  	}
+    override fun getVars(): MutableList<String> {
+        //доделать (зачем...)
+        var res = mutableListOf<String>();
+        return res;
+    }
 }
 
 class forBlock(before: Array<CodeBlock>, expr: String, after: Array<CodeBlock>, body: Array<CodeBlock>) : CodeBlock() {
@@ -327,45 +347,41 @@ class forBlock(before: Array<CodeBlock>, expr: String, after: Array<CodeBlock>, 
         var DELETE: MutableList<String> = mutableListOf();
         for(i in start){
         	if (!i.execute()) {
-                for (i in LAST_VARS) {
-            		deleteVar(i);
-        		}
+               
                 return false;
             }
     	}
-        DELETE = LAST_VARS;
-        var flag1 = false; var flag2 = false;
+        for((key, value) in map){
+    	println("$key : " + value.defined + ", " + value.value)
+		}
     	while (isTrue(condition)) {
             if (calc(condition)=="error") return false;
             for(i in cycleBody)	{
         		if (!i.execute()) {
-                	for (i in LAST_VARS) {
-            			deleteVar(i);
-        			}
+           
                 	return false;
             	}
-                if (!flag1) {
-                    DELETE.plus(LAST_VARS);
-                    flag1 = true;
-                }
+               
             }
 
             for(i in end){
         		if (!i.execute()) {
-                	for (i in LAST_VARS) {
-            			deleteVar(i);
-        			}
+                
                 	return false;
             	}
-                if (!flag2) {
-                    DELETE.plus(LAST_VARS);
-                    flag2 = true;
-                }
+               
     		}
         }
         for (i in DELETE) {
+            println(DELETE.size)
             deleteVar(i);
         }
         return true;
  	}
+    override fun getVars(): MutableList<String> {
+        //доделать (зачем...)
+        var res = mutableListOf<String>();
+        return res;
+    }
 }
+
