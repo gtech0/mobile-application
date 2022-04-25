@@ -83,6 +83,8 @@ fun calc (str: String): String {
     s = s.replace(">=".toRegex(), "⩾");
     s = s.replace("==".toRegex(), "=");
     s = s.replace("!=".toRegex(), "≠");
+    s = s.replace("true".toRegex(), "1");
+    s = s.replace("false".toRegex(), "0");
     var st = ArrayDeque<Int>()
     var op = ArrayDeque<Int>()
     
@@ -147,27 +149,27 @@ fun calc (str: String): String {
 //ПАРСЕР КОНЕЦ
 
 //КЛАССЫ
+var map = mutableMapOf<String, Variable>()
+
 abstract class Variable(vName: String) {
-val varName = vName;
-var defined = false;
-abstract var value: String;
-abstract var Type: String;
+    val varName = vName;
+    var defined = false;
+    abstract var value: String;
+    abstract var Type: String;
     init {
        map.put(vName, this)
     }
 }
 
-var map = mutableMapOf<String, Variable>()
-
 
 class IntClass(varName: String) : Variable(varName) {
-override var Type = "Int";
- override var value = "0";
+	override var Type = "Int";
+ 	override var value = "0";
 }
 
 class BoolClass(varName: String) : Variable(varName) {
-override var Type = "Bool";
- override var value = "false";
+	override var Type = "Bool";
+ 	override var value = "false";
 }
 
 fun isExist(name: String): Boolean {
@@ -222,12 +224,75 @@ fun setValue(name: String, Val: String): Boolean {
     }
     if (TYPE=="Bool") {
         //доделать
-        if (Val!="0" && Val!="1") return false;
-        if (Val=="0") map.get(name)!!.value = "false";
-        else map.get(name)!!.value = "true";
+        var res = calc(Val);
+        if (res.matches(Regex("([0-9]+|true|false)"))==false) return false;
+        if (res=="true" || Val=="false") {
+            map.get(name)!!.value = res;
+        }
+        if (res.matches(Regex("0+"))) {
+            map.get(name)!!.value = "false";
+        }
+        else {
+            map.get(name)!!.value = "true";
+        }
         map.get(name)!!.defined = true;
         return true;
     }
     return false;
+}
+
+abstract class CodeBlock() {
+	abstract var Type: String;
+	abstract fun execute(): Boolean;
+}
+
+
+
+class createBlock(x: Array<String>) : CodeBlock() {
+ 	override var Type = "Create";
+ 	var instructions = x;
+ 	override fun execute(): Boolean {
+        for (i in 0 until instructions.size step 3) {
+            if (instructions[i+2]=="") {
+                if (!createVar(instructions[i], instructions[i+1])) return false;
+            }
+            else {
+                if (!createVar(instructions[i], instructions[i+1])) return false;
+                if (!setValue(instructions[i], instructions[i+2])) return false;
+            }
+        }
+    	return true;
+ 	}
+}
+
+class setBlock(x: Array<String>) : CodeBlock() {
+ 	override var Type = "Set";
+ 	var instructions = x;
+    override fun execute(): Boolean {
+        for (i in 0 until instructions.size step 2) {
+           if (!setValue(instructions[i], instructions[i+1])) return false;
+        }
+    	return true;
+ 	}
+}
+
+class ifBlock(expr: String, ifInstr: Array<CodeBlock>, thenInstr: Array<CodeBlock>) : CodeBlock() {
+ 	override var Type = "If";
+ 	var condition = expr;
+ 	var IF = ifInstr;
+ 	var THEN = thenInstr;
+    override fun execute(): Boolean {
+        if (calc(condition)!="0") {
+            for(i in IF)	{
+        		if (!i.execute()) return false;
+    		}
+        }
+        else {
+            for(i in THEN)	{
+        		if (!i.execute()) return false;
+    		}
+        }
+    	return true;
+ 	}
 }
 
