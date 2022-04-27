@@ -9,8 +9,9 @@
     tools:context=".MainActivity">
 
     <TextView
-
-        android:layout_width="match_parent"
+        android:id="@+id/textview1"
+        android:layout_marginLeft="23dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Main menu"
@@ -21,22 +22,21 @@
         android:id="@+id/button1"
         android:layout_width="170dp"
         android:layout_height="95dp"
-        android:layout_marginLeft="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="380dp"
-        android:backgroundTint="#6495ed"
-        android:text="Login"
+        app:backgroundTint="@null"
+        android:background="@drawable/my_button1"
+        android:text="Start"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="28sp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button2"
-        android:layout_width="170dp"
-        android:layout_height="95dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@id/textview1"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="380dp"
-        android:layout_marginRight="20dp"
-        android:backgroundTint="#6495ed"
-        android:text="Settings"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:background=""
+        android:layout_marginRight="18dp"
+        android:src="@drawable/ic_baseline_settings_24" />
 </RelativeLayout>
