@@ -16,8 +16,12 @@
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button3_eff.xml" value="0.309" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button3_pressed.xml" value="0.309" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button4.xml" value="0.309" />
-        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_1.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button4_eff.xml" value="0.334" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button4_pressed.xml" value="0.334" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button5_eff.xml" value="0.334" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button5_pressed.xml" value="0.334" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_1.xml" value="0.2817028985507246" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_main.xml" value="0.2817028985507246" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
       </map>
     </option>
