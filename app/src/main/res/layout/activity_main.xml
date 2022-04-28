@@ -23,7 +23,7 @@
         android:layout_width="190dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="410dp"
+        android:layout_marginTop="415dp"
         android:background="@drawable/my_button1_eff"
         android:text="Start"
         android:textColor="@color/black"
