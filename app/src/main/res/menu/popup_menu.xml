@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/declare_variable"
+        android:title="Объявить переменную"/>
+
+    <item
+        android:id="@+id/assign_value"
+        android:title="Присвоить значение переменной"/>
+
+</menu>
