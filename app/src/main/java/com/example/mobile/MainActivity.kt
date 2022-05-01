@@ -10,10 +10,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button1 = findViewById<Button>(R.id.button1)
-        button1.setOnClickListener {
-            val intent = Intent(this, Activity1::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.button1).setOnClickListener {
+            startActivity(Intent(this, Activity1::class.java))
+        }
+
+        findViewById<Button>(R.id.button1_exit).setOnClickListener {
+            finishAffinity()
         }
     }
 }

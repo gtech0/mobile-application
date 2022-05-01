@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Very cool application</string>
+    
+    <string-array name="declaration">
+        <item>Int</item>
+        <item>Double</item>
+        <item>String</item>
+    </string-array>
 </resources>

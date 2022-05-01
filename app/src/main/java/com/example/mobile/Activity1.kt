@@ -16,10 +16,8 @@ class Activity1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_1)
 
-        val button3 = findViewById<ImageButton>(R.id.button3)
-        button3.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        findViewById<ImageButton>(R.id.button3).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         val button4 = findViewById<ImageButton>(R.id.button4)
@@ -35,11 +33,12 @@ class Activity1 : AppCompatActivity() {
         popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
             when(item!!.itemId) {
                 R.id.declare_variable -> {
-                    Toast.makeText(this@Activity1, item.title, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@Activity1, item.title, Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this,Activity1_declareVar::class.java))
                 }
 
                 R.id.assign_value -> {
-                    Toast.makeText(this@Activity1, item.title, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@Activity1, item.title, Toast.LENGTH_SHORT).show()
                 }
             }
             true

@@ -7,5 +7,4 @@
     <item
         android:id="@+id/assign_value"
         android:title="Присвоить значение переменной"/>
-
 </menu>

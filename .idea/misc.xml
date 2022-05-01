@@ -12,6 +12,9 @@
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3675" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button1.xml" value="0.3445" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button1_eff.xml" value="0.3675" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button1_exit.xml" value="0.32" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button1_exit_eff.xml" value="0.32" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button1_exit_pressed.xml" value="0.32" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button1_pressed.xml" value="0.3675" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button3_eff.xml" value="0.309" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button3_pressed.xml" value="0.309" />
@@ -20,7 +23,9 @@
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button4_pressed.xml" value="0.334" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button5_eff.xml" value="0.334" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button5_pressed.xml" value="0.334" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity1_declare_var.xml" value="0.26902173913043476" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_1.xml" value="0.2817028985507246" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_activity1_declare_var.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_main.xml" value="0.2817028985507246" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/popup_menu.xml" value="0.2722222222222222" />
