@@ -17,13 +17,9 @@ class Activity1_declareVar : AppCompatActivity() {
         }
 
         val spinner1 = findViewById<Spinner>(R.id.spinner1)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.declaration,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner1.adapter = adapter
-        }
+        val declaration = arrayOf<String?>("Bool", "Int", "Double", "String")
+        val arrayAdapter: ArrayAdapter<Any?> = ArrayAdapter<Any?>(this, R.layout.spinner_list, declaration)
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_list)
+        spinner1.adapter = arrayAdapter
     }
 }
