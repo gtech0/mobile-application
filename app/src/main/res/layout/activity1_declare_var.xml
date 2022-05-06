@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:text="Имя переменной"
         android:textSize="30sp"
-        android:layout_marginTop="190dp"
-        android:layout_marginLeft="25dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="23dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -31,7 +31,7 @@
 
     <EditText
         android:id="@+id/edittext1"
-        android:layout_width="230dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
@@ -41,9 +41,9 @@
     
     <Spinner
         android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="25dp"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="22dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/edittext1"/>
     
@@ -55,5 +55,20 @@
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button1_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/my_button1_exit_eff"
+        android:text="Создать"
+        android:textSize="23sp"
+        android:padding="18dp"
+        android:textColor="@color/black"
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toBottomOf="@id/edittext1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
