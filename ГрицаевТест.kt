@@ -181,7 +181,7 @@ fun calc (str: String): String {
 				--i;
                 if (OPER[0].isDigit()) st.addLast(OPER)
                 else { 
-                    if (isDefined(OPER) && (getType(OPER)=="Int" || getType(OPER)=="Bool")) {
+                    if (isDefined(OPER) && (getType(OPER)=="Int" || getType(OPER)=="Bool" || getType(OPER)=="Float")) {
                         st.addLast(getValue(OPER))
                     }
                     else return "error";
@@ -259,6 +259,10 @@ fun createVar(name: String, type: String): Boolean {
         var a = IntClass(name);
         return true;
     }
+    if (type=="Float") {
+        var a = FloatClass(name);
+        return true;
+    }
     if (type=="Bool") {
         var a = BoolClass(name);
         return true;
@@ -278,7 +282,7 @@ fun getValue(name: String): String {
     val TYPE = getType(name);
     if (!isExist(name) || TYPE == "NaN") return "NaN";
     if (!isDefined(name)) return "undefined";
-    if (TYPE == "Int" || TYPE == "Bool") {
+    if (TYPE == "Int" || TYPE == "Bool" || TYPE == "Float") {
         var a = map.get(name);
         return a!!.value[0];
     }
@@ -293,6 +297,14 @@ fun setValue(name: String, Val: String): Boolean {
         if (res=="error") return false;
         val regEx = "[0-9]+".toRegex()  
         map.get(name)!!.value[0] = regEx.find(res)!!.value;
+        map.get(name)!!.defined = true;
+        return true;
+    }
+    if (TYPE=="Float") {
+        var res = calc(Val);
+        if (res=="error") return false;
+        if (isInt(res)) res += ".0";
+        map.get(name)!!.value[0] = res;
         map.get(name)!!.defined = true;
         return true;
     }
@@ -440,9 +452,8 @@ class forBlock(before: Array<CodeBlock>, expr: String, after: Array<CodeBlock>, 
     }
 }
 
-/*
 fun main() {
-    var f0 = createBlock(arrayOf("s", "Int", "0.5"))
+    var f0 = createBlock(arrayOf("s", "Float", "0.5"))
     var before: Array<CodeBlock>;
     var expr: String;
     var after: Array<CodeBlock>;
@@ -457,4 +468,4 @@ fun main() {
     println(getValue("s"))
     println(isFloat("2.2"))
 }
-*/
+
