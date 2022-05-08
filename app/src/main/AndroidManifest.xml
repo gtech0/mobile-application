@@ -9,8 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile" >
-        <activity android:name=".Activity1_assignValue" />
-        <activity android:name=".Activity1_declareVar" />
         <activity android:name=".Activity1" />
         <activity
             android:name=".MainActivity"

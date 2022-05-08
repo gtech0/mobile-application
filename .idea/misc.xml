@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/bachground_color.xml" value="0.3675" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/back_shape.xml" value="0.1" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/background_color.xml" value="0.3445" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/background_shape.xml" value="0.111" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.309" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.309" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.309" />
@@ -25,10 +27,13 @@
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/drawable/my_button5_pressed.xml" value="0.334" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/Activity1_assignValue.xml" value="0.2667572463768116" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity1_assign_val.xml" value="0.2604166666666667" />
-        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity1_declare_var.xml" value="0.26902173913043476" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity1_declare_var.xml" value="0.22" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_1.xml" value="0.25" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_activity1_declare_var.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/activity_main.xml" value="0.2817028985507246" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block_assign.xml" value="0.1" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block_declare.xml" value="0.22" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/spinner_list.xml" value="0.18009118541033434" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/popup_menu.xml" value="0.2722222222222222" />
