@@ -16,10 +16,15 @@ class Adapter(val c: Context, val declareList: ArrayList<DeclareData>) :
         val name_a = view.findViewById<TextView>(R.id.name_assign)
     }
 
+    fun deleteBlock(iter : Int){
+        declareList.removeAt(iter)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeclareViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val v = inflater.inflate(R.layout.block_declare, parent, false)
-        return DeclareViewHolder(v)
+        val view = inflater.inflate(R.layout.block_dialog, parent, false)
+        return DeclareViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: DeclareViewHolder, position: Int) {

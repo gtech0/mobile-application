@@ -34,13 +34,15 @@
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block_assign.xml" value="0.1" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block_declare.xml" value="0.22" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/block_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/list_assign.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/layout/spinner_list.xml" value="0.18009118541033434" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/dmg/AndroidStudioProjects/mobile-application/app/src/main/res/menu/popup_menu.xml" value="0.2722222222222222" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

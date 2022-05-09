@@ -1,6 +1,5 @@
 package com.example.mobile
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,18 +8,21 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.models.DeclareData
 import com.example.mobile.view.Adapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.mobile.view.SwipeGes
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Activity1 : AppCompatActivity() {
 //    var x : Double? = 0.0
 //    var y : Double? = 0.0
     private lateinit var recycle: RecyclerView
     private lateinit var listD: ArrayList<DeclareData>
-    private lateinit var adapterD: Adapter
+    private lateinit var adapter1: Adapter
     //@SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +38,34 @@ class Activity1 : AppCompatActivity() {
 
         recycle = findViewById(R.id.recycler)
         listD = ArrayList()
-        adapterD = Adapter(this,listD)
+        adapter1 = Adapter(this,listD)
         recycle.layoutManager = LinearLayoutManager(this)
-        recycle.adapter = adapterD
+        recycle.adapter = adapter1
+
+        val swipeGes = object : SwipeGes() {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                Collections.swap(listD, from, to)
+                adapter1.notifyItemMoved(from, to)
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when(direction) {
+                    ItemTouchHelper.RIGHT -> {
+                        adapter1.deleteBlock(viewHolder.adapterPosition)
+                    }
+
+                    ItemTouchHelper.LEFT -> {
+                        adapter1.deleteBlock(viewHolder.adapterPosition)
+                    }
+                }
+            }
+        }
+
+        val touchHelper = ItemTouchHelper(swipeGes)
+        touchHelper.attachToRecyclerView(recycle)
 
 //        textView.setOnTouchListener{view , event->
 //            when (event.action){
@@ -64,23 +91,48 @@ class Activity1 : AppCompatActivity() {
 
     private fun addInfoD() {
         val inflater = LayoutInflater.from(this)
-        val v = inflater.inflate(R.layout.activity1_declare_var, null)
-        val name = v.findViewById<EditText>(R.id.edittext1)
+        val v = inflater.inflate(R.layout.list_declare, null)
         val type = v.findViewById<EditText>(R.id.edittext2)
+        val name = v.findViewById<EditText>(R.id.edittext1)
         val addDialog = AlertDialog.Builder(this)
         addDialog.setView(v)
         addDialog.setPositiveButton("Ok"){
-            dialog,_->
+                dialog,_->
             val names = name.text.toString()
             val types = type.text.toString()
             listD.add(DeclareData("Type: $types", "Name: $names"))
-            adapterD.notifyDataSetChanged()
-            Toast.makeText(this, "add",Toast.LENGTH_SHORT).show()
+            adapter1.notifyDataSetChanged()
+            Toast.makeText(this, "Added",Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
-        addDialog.setNegativeButton("No"){
-            dialog,_->
-            Toast.makeText(this,"nope",Toast.LENGTH_SHORT).show()
+        addDialog.setNegativeButton("Nope"){
+                dialog,_->
+            Toast.makeText(this,"Hell no",Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        addDialog.create()
+        addDialog.show()
+    }
+
+    private fun addInfoA() {
+        val inflater = LayoutInflater.from(this)
+        val v = inflater.inflate(R.layout.list_assign, null)
+        val type = v.findViewById<EditText>(R.id.edittext4)
+        val name = v.findViewById<EditText>(R.id.edittext3)
+        val addDialog = AlertDialog.Builder(this)
+        addDialog.setView(v)
+        addDialog.setPositiveButton("Ok"){
+                dialog,_->
+            val names = name.text.toString()
+            val types = type.text.toString()
+            listD.add(DeclareData("Name: $types", "Value: $names"))
+            adapter1.notifyDataSetChanged()
+            Toast.makeText(this, "Assigned",Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        addDialog.setNegativeButton("Nope"){
+                dialog,_->
+            Toast.makeText(this,"Hell no",Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         addDialog.create()
@@ -98,7 +150,7 @@ class Activity1 : AppCompatActivity() {
                 }
 
                 R.id.assign_value -> {
-
+                    addInfoA()
                 }
             }
             true

@@ -5,36 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/back_shape">
-
+    android:gravity="center"
+    android:background="@drawable/back_shape">
         <TextView
-            android:id="@+id/textview2"
+            android:id="@+id/textview4"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Добавить переменную"
+            android:text="Присвоить значение"
             android:textSize="30sp"
             android:gravity="center"
             android:layout_gravity="center" />
 
         <EditText
-            android:id="@+id/edittext2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:textSize="20sp"
-            android:hint="Тип"
-            android:elevation="55dp"
-            android:layout_marginTop="10dp" />
-
-        <EditText
-            android:id="@+id/edittext1"
+            android:id="@+id/edittext4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -43,11 +28,13 @@
             android:elevation="55dp"
             android:layout_marginTop="10dp" />
 
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner1"-->
-<!--            android:layout_margin="10dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp" />-->
-    </LinearLayout>
-
+        <EditText
+            android:id="@+id/edittext3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textSize="20sp"
+            android:hint="Значение"
+            android:elevation="55dp"
+            android:layout_marginTop="10dp" />
 </LinearLayout>

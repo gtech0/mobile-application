@@ -25,7 +25,7 @@
                 android:id="@+id/type_assign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type: "
+                android:text=""
                 android:textSize="18sp"
                 android:layout_margin="1dp"
                 android:padding="3dp"/>
@@ -34,7 +34,7 @@
                 android:id="@+id/name_assign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name: "
+                android:text=""
                 android:textSize="18sp"
                 android:layout_margin="1dp"
                 android:padding="3dp"/>
